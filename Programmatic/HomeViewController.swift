@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     //MARK: Properties
     private var table: UITableView!
     private var labelOne: UILabel!
-    private let data = ["One", "Two", "Three", "Four", "Five", "Six"]
+    private let data = ["Custom Collection View", "More to Come", "More to Come", "More to Come", "More to Come", "More to Come"]
 
     //MARK: Methods
     override func viewDidLoad() {
@@ -37,14 +37,13 @@ class HomeViewController: UIViewController {
         table.delegate = self
         table.dataSource = self
         table.backgroundColor = UIColor(red: 153/255, green: 221/255, blue: 204/255, alpha: 1)
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "evenCell")
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "oddCell")
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
         table.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func addControls() {
         view.addSubview(table)
-        view.addSubview(labelOne)
+//        view.addSubview(labelOne) //Not Adding currenctly.
     }
     
     func setupConstraintsForControls() {
@@ -59,7 +58,7 @@ class HomeViewController: UIViewController {
         
         //MARK: table Contraints
         if (table.isDescendant(of: view)) {
-            table.topAnchor         .constraint(equalTo: labelOne.bottomAnchor) .isActive = true
+            table.topAnchor         .constraint(equalTo: view.topAnchor)        .isActive = true
             table.leadingAnchor     .constraint(equalTo: view.leadingAnchor)    .isActive = true
             table.trailingAnchor    .constraint(equalTo: view.trailingAnchor)   .isActive = true
             table.bottomAnchor      .constraint(equalTo: view.bottomAnchor)     .isActive = true
@@ -74,15 +73,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row % 2 == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "evenCell", for: indexPath as IndexPath)
-            cell.textLabel!.text = "\(indexPath.row)"
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "oddCell", for: indexPath as IndexPath)
-            cell.textLabel!.text = "\(data[indexPath.row])"
-            cell.textLabel?.textAlignment = .right
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath)
+        cell.textLabel!.text = "\(data[indexPath.row])"
+        cell.accessoryType = .disclosureIndicator
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let collection = CollectionVC()
+        self.navigationController?.pushViewController(collection, animated: true)
     }
 }
