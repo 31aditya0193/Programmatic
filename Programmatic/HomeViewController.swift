@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     //MARK: Properties
     private var table: UITableView!
     private var labelOne: UILabel!
-    private let data = ["Custom Collection View", "More to Come", "More to Come", "More to Come", "More to Come", "More to Come"]
+    private let data = ["Default Collection View", "Custom Collection View", "More to Come", "More to Come", "More to Come", "More to Come"]
 
     //MARK: Methods
     override func viewDidLoad() {
@@ -75,12 +75,32 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath)
         cell.textLabel!.text = "\(data[indexPath.row])"
-        cell.accessoryType = .disclosureIndicator
+        switch indexPath.row {
+        case 0...1:
+            cell.accessoryType = .disclosureIndicator
+        default:
+            cell.accessoryType = .none
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let collection = CollectionVC()
-        self.navigationController?.pushViewController(collection, animated: true)
+        switch indexPath.row {
+        case 0:
+            let collection = DefaultCollectionVC()
+            self.navigationController?.pushViewController(collection, animated: true)
+        case 1:
+            let collection = CollectionVC()
+            self.navigationController?.pushViewController(collection, animated: true)
+        default:
+            let message = "Yet to Come";
+            let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+            self.present(alert, animated: true)
+            let duration: Double = 1
+                
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+                alert.dismiss(animated: true)
+            }
+        }
     }
 }
