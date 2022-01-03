@@ -10,8 +10,12 @@ import UIKit
 class HomeViewController: UIViewController {
     //MARK: Properties
     private var table: UITableView!
-    private var labelOne: UILabel!
-    private let data = ["Default Collection View", "Custom Collection View", "More to Come", "More to Come", "More to Come", "More to Come"]
+    private let data = ["Default Collection View",
+                        "Custom Collection View",
+                        "Box Animation",
+                        "More to Come",
+                        "More to Come",
+                        "More to Come"]
 
     //MARK: Methods
     override func viewDidLoad() {
@@ -22,16 +26,6 @@ class HomeViewController: UIViewController {
     }
     
     func createControls() {
-        // MARK: labelOne UILabel
-        labelOne = UILabel()
-        labelOne.backgroundColor = .white
-        labelOne.text = "Hello"
-        labelOne.textAlignment = .center
-        labelOne.layer.masksToBounds = true
-        labelOne.layer.cornerRadius = 5
-        labelOne.textColor = .green
-        labelOne.translatesAutoresizingMaskIntoConstraints = false
-        
         // MARK: table UITableView
         table = UITableView()
         table.delegate = self
@@ -43,19 +37,9 @@ class HomeViewController: UIViewController {
     
     func addControls() {
         view.addSubview(table)
-//        view.addSubview(labelOne) //Not Adding currenctly.
     }
     
     func setupConstraintsForControls() {
-        //MARK: labelOne Contraints
-        if (labelOne.isDescendant(of: view)) {
-            //TODO: Button gets hidden under notch if constant of 50 is not added.
-            labelOne.topAnchor      .constraint(equalTo: view.topAnchor, constant: 50)  .isActive = true
-            labelOne.leadingAnchor  .constraint(equalTo: view.leadingAnchor)            .isActive = true
-            labelOne.trailingAnchor .constraint(equalTo: view.trailingAnchor)           .isActive = true
-            labelOne.heightAnchor   .constraint(equalToConstant: 50)                    .isActive = true
-        }
-        
         //MARK: table Contraints
         if (table.isDescendant(of: view)) {
             table.topAnchor         .constraint(equalTo: view.topAnchor)        .isActive = true
@@ -76,7 +60,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath as IndexPath)
         cell.textLabel!.text = "\(data[indexPath.row])"
         switch indexPath.row {
-        case 0...1:
+        case 0...2:
             cell.accessoryType = .disclosureIndicator
         default:
             cell.accessoryType = .none
@@ -92,6 +76,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             let collection = CollectionVC()
             self.navigationController?.pushViewController(collection, animated: true)
+        case 2:
+            let boxAnimation = BoxAnimationVC()
+            self.navigationController?.pushViewController(boxAnimation, animated: true)
         default:
             let message = "Yet to Come";
             let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
