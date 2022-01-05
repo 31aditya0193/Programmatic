@@ -22,10 +22,12 @@ class BoxAnimationVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         addBox()
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         animate()                //Animate when
     }
     
